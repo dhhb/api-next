@@ -4,6 +4,7 @@ import logger from 'morgan';
 import express from 'express';
 import compression from 'compression';
 import { host, port, env } from 'c0nfig';
+import v1 from './v1';
 
 const app = express();
 
@@ -12,9 +13,8 @@ if ('test' !== env) {
 }
 
 app.use(cors());
-app.use(compression());
-
-app.use((req, res) => res.json({fortune: true}));
+// app.use(compression());
+app.use('/v1', v1());
 
 http.createServer(app).listen(port, () => {
     console.log(`api is listening on http://${host}:${port} env=${env}`);
