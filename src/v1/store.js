@@ -1,5 +1,6 @@
 import fortune from 'fortune';
 import mongodbAdapter from 'fortune-mongodb';
+import { randomBytes } from 'crypto';
 import { mongo } from 'c0nfig';
 import * as types from './types';
 
@@ -13,9 +14,14 @@ Object.keys(types).forEach(key => {
 
 const adapter = [
     mongodbAdapter,
-    {url: mongo.connection}
+    {
+        url: mongo.connection,
+        generateId() {
+            return randomBytes(12).toString('hex');
+        }
+    }
 ];
 
-const store = fortune(recordTypes, adapter, transforms);
+const store = fortune(recordTypes, { adapter, transforms });
 
 export default store;

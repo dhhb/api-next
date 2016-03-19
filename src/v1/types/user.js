@@ -7,13 +7,13 @@ const user = {
         picture: { type: String }
     },
 
-    input() {
-        console.log('input', arguments);
-    },
+    // input() {
+    //     console.log('input', arguments);
+    // },
 
-    output() {
-        console.log('output', arguments);
-    }
+    // output() {
+    //     console.log('output', arguments);
+    // }
 };
 
 export default user;

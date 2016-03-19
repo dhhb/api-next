@@ -5,7 +5,7 @@ module.exports = {
         host: '$(host)',
         name: 'dhhb-fortune-dev',
         port: 27017,
-        connection: 'mongodb://$(mongodb.host):$(mongodb.port)/$(mongodb.name)',
+        connection: 'mongodb://$(mongo.host):$(mongo.port)/$(mongo.name)',
         options: {}
     }
 };

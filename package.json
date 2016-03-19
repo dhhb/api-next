@@ -15,7 +15,7 @@
     "cookie-parser": "^1.4.1",
     "cors": "^2.7.1",
     "express": "^4.13.4",
-    "fortune": "^3.3.2",
+    "fortune": "^3.3.3",
     "fortune-json-api": "^2.0.1",
     "fortune-mongodb": "^1.1.2",
     "morgan": "^1.7.0"
