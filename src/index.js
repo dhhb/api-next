@@ -2,7 +2,6 @@ import http from 'http';
 import cors from 'cors';
 import logger from 'morgan';
 import express from 'express';
-import compression from 'compression';
 import { host, port, env } from 'c0nfig';
 import v1 from './v1';
 
@@ -13,7 +12,6 @@ if ('test' !== env) {
 }
 
 app.use(cors());
-// app.use(compression());
 app.use('/v1', v1());
 
 http.createServer(app).listen(port, () => {
