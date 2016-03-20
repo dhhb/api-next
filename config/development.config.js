@@ -1,5 +1,5 @@
 module.exports = {
-    port: 9876,
+    port: process.env.PORT || 9876,
     host: 'localhost',
     mongo: {
         host: '$(host)',
@@ -7,5 +7,12 @@ module.exports = {
         port: 27017,
         connection: 'mongodb://$(mongo.host):$(mongo.port)/$(mongo.name)',
         options: {}
+    },
+    auth: {
+        cookieName: 'access_token',
+        signKey: '9bddfe0adf7bfc936adf4e19ed568dafe5f03d28',
+        tokenTTL: 1000 * 60 * 60 * 24 * 30 * 6, // 6 months
+        resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
+        bcryptHashRounds: 10
     }
 };

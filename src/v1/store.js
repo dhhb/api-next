@@ -7,14 +7,22 @@ import * as types from './types';
 const typeMap = {};
 const transforms = {};
 const recordTypes = {};
+const recordIndexes = [];
 Object.keys(types).forEach(key => {
-    const t = types[key];
+    const type = types[key];
 
-    recordTypes[t.name] = t.definition;
-    transforms[t.name] = [t.input, t.output];
+    recordTypes[type.name] = type.definition;
+    transforms[type.name] = [type.input, type.output];
 
-    if (t.collection) {
-        typeMap[t.name] = t.collection;
+    if (type.collection) {
+        typeMap[type.name] = type.collection;
+    }
+
+    if (type.index) {
+        recordIndexes.push({
+            collection: type.collection,
+            index: type.index
+        });
     }
 });
 
@@ -28,7 +36,14 @@ const adapter = [
         typeMap
     }
 ];
-
 const store = fortune(recordTypes, { adapter, transforms });
+
+store.on(fortune.events.connect, () => {
+    recordIndexes.forEach(record => {
+        const db = store.adapter.db;
+        const { keys, options } = record.index;
+        db.collection(record.collection).createIndex(keys, options);
+    });
+});
 
 export default store;

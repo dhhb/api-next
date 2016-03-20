@@ -5,9 +5,12 @@ import jsonApiSerializer from 'fortune-json-api';
 import { env } from 'c0nfig';
 import store from './store';
 
+const formDataSerializer = fortune.net.http.FormDataSerializer;
+
 const listener = fortune.net.http(store, {
     serializers: [
-        [jsonApiSerializer, {}]
+        [ jsonApiSerializer ],
+        [ formDataSerializer ]
     ]
 });
 

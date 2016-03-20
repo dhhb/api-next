@@ -1,7 +1,7 @@
 import isEmail from 'validator/lib/isEmail';
 
 export const Email = (value) => {
-    return isEmail(value);
+    return isEmail(value.trim());
 };
 
 export const Enum = (values = []) => {

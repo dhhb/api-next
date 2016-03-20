@@ -5,11 +5,14 @@
   "main": "src/index.js",
   "scripts": {
     "nodemon": "nodemon -w ./src ./bin/runServer -e js,json",
-    "start": "npm run nodemon",
+    "start": "node ./bin/runServer",
+    "start-dev": "npm run nodemon",
     "lint": "eslint ./src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "mocha": "mocha ./test",
+    "test": "npm run start && npm run mocha"
   },
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "c0nfig": "^0.2.2",
     "chalk": "^1.1.1",
     "compression": "^1.6.1",
@@ -19,6 +22,8 @@
     "fortune": "^3.3.3",
     "fortune-json-api": "^2.0.1",
     "fortune-mongodb": "^1.1.2",
+    "jsonwebtoken": "^5.7.0",
+    "mongojs": "^2.3.0",
     "morgan": "^1.7.0",
     "validator": "^5.1.0"
   },

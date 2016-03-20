@@ -43,5 +43,9 @@
         "prefer-rest-params": 0,
         "no-shadow": 0,
         "no-unneeded-ternary": 0
+    },
+
+    "globals": {
+        "expect": true
     }
 }
