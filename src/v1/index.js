@@ -17,9 +17,7 @@ export default function () {
     router.use((req, res) => {
         return listener(req, res)
             .catch(error => {
-                if ('development' === env) {
-                    console.log(chalk.red(error.stack));
-                }
+                if ('development' === env) console.log(chalk.red(error.stack));
             });
     });
 

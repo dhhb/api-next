@@ -19,7 +19,8 @@
     "fortune": "^3.3.3",
     "fortune-json-api": "^2.0.1",
     "fortune-mongodb": "^1.1.2",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "validator": "^5.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
