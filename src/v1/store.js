@@ -46,4 +46,6 @@ store.on(fortune.events.connect, () => {
     });
 });
 
+store.connect();
+
 export default store;
