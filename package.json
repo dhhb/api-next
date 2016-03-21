@@ -9,7 +9,7 @@
     "start-dev": "npm run nodemon",
     "lint": "eslint ./src",
     "mocha": "mocha ./test",
-    "test": "npm run start && npm run mocha"
+    "test": "npm run mocha"
   },
   "dependencies": {
     "bcrypt": "^0.8.5",
