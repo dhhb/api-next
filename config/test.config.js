@@ -13,6 +13,6 @@ module.exports = {
         signKey: '2c8452ca589f3a38f161568681ccfe46f6362bff',
         tokenTTL: 1000 * 60 * 60 * 24 * 30 * 6, // 6 months
         resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
-        bcryptHashRounds: 10
+        bcryptHashRounds: 0
     }
 };

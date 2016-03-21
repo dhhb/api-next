@@ -1,5 +1,5 @@
 import isBase64 from 'validator/lib/isBase64';
-import { generate, validate } from '../../src/utils/token';
+import { generate, validate } from '../../src/v1/utils/token';
 
 describe('token util', () => {
     let token;

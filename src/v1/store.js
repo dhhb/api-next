@@ -38,6 +38,7 @@ const adapter = [
 ];
 const store = fortune(recordTypes, { adapter, transforms });
 
+// ensure mongodb collection indexes
 store.on(fortune.events.connect, () => {
     recordIndexes.forEach(record => {
         const db = store.adapter.db;

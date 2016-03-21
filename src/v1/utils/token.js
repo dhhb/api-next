@@ -16,7 +16,7 @@ export function validate (token) {
         const user = jwt.verify(decoded, signKey);
         return user;
     } catch (err) {
-        if (env !== 'test') {
+        if ('development' === env) {
             console.error(err);
         }
     }

@@ -1,30 +1,12 @@
 import fortune from 'fortune';
-import bcrypt from 'bcrypt';
-import config from 'c0nfig';
-import { Email, Enum } from './customTypesUtil';
-
-const { bcryptHashRounds } = config.auth;
+import * as passwords from '../utils/passwords';
+import * as types from '../utils/types';
 
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
 
 const BadRequestError = fortune.errors.BadRequestError;
-
-function savePassword (password) {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(bcryptHashRounds, (err, salt) => {
-            if (err) {
-                return reject(err);
-            }
-            bcrypt.hash(password, salt, (err, hash) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(hash);
-            });
-        });
-    });
-}
+const UnauthorizedError = fortune.errors.UnauthorizedError;
 
 const recordType = {
     name: 'user',
@@ -36,7 +18,7 @@ const recordType = {
             type: String
         },
         email: {
-            type: Email
+            type: types.Email
         },
         password: {
             type: String
@@ -48,7 +30,7 @@ const recordType = {
             type: Buffer
         },
         roles: {
-            type: Enum('writer|admin'),
+            type: types.Enum('writer|admin'),
             isArray: true
         }
     },
@@ -62,18 +44,25 @@ const recordType = {
         }
     },
 
-    input(context, record, update) {
+    async input(context, record, update) {
         const method = context.request.method;
 
-        console.log('input', context.request.meta, record, update);
+        // if createMethod and role writer check shared key in request
+        // else throw Forbidden
+        // 1. get token in request headers, validate, check role, throw error if necessary
+        // 2. get token in request headers, request db, check session exists, validate, check role, throw error if necessary
+
+        console.log('input', context.request, record, update);
         if (method === createMethod) {
             delete record.id;
 
-            return savePassword(record.password)
-                .then(passwordHash => {
-                    record.password = passwordHash;
-                    return record;
-                });
+            const token = validateToken(context);
+            if (!token) {
+                throw new UnauthorizedError('Token is expired or invalid');
+            }
+            const hash = await passwords.save(record.password);
+            record.password = hash;
+            return record;
         }
 
         if (method === updateMethod) {
@@ -92,5 +81,14 @@ const recordType = {
         return record;
     }
 };
+
+function validateToken (context) {
+    // get token from context.request
+    const headers = context.request.meta.headers;
+    const query = context.request.uriObject.query || {};
+    const token = headers['x-access-token'] || query.access_token;
+
+    return false;
+}
 
 export default recordType;
