@@ -62,7 +62,6 @@ const recordType = {
                 throw new BadRequestError('Passwords do not match');
             }
 
-            record.id = token.generate(user);
             record.token = token.generate(user);
             record.expireAt = new Date(Date.now() + config.auth.tokenTTL);
             return record;
