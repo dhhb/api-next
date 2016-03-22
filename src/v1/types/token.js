@@ -1,23 +1,25 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
-import * as types from '../utils/types';
-import * as token from '../utils/token';
+// import * as types from '../utils/types';
+// import * as token from '../utils/token';
 import * as passwords from '../utils/passwords';
 
+const findMethod = fortune.methods.find;
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
 
 const NotFoundError = fortune.errors.NotFoundError;
+const ForbiddenError = fortune.errors.ForbiddenError;
 const BadRequestError = fortune.errors.BadRequestError;
 
 const recordType = {
-    name: 'session',
+    name: 'token',
 
-    collection: 'sessions',
+    collection: 'tokens',
 
     definition: {
-        token: {
-            type: types.Base64
+        userId: {
+            type: String
         },
         expireAt: {
             type: Date
@@ -38,7 +40,6 @@ const recordType = {
 
         if (method === createMethod) {
             delete record.id;
-            delete record.token;
 
             const users = await context.transaction.find('user', null, {
                 match: {
@@ -62,19 +63,25 @@ const recordType = {
                 throw new BadRequestError('Passwords do not match');
             }
 
-            record.token = token.generate(user);
+            record.userId = user.id;
             record.expireAt = new Date(Date.now() + config.auth.tokenTTL);
             return record;
         }
 
         if (method === updateMethod) {
-            return record;
+            throw new ForbiddenError('Tokens cannot be updated');
         }
 
         return null;
     },
 
     output(context, record) {
+        const method = context.request.method;
+        if (method === findMethod) {
+            throw new ForbiddenError('Tokens access is not allowed');
+        }
+
+        delete record.userId;
         return record;
     }
 };

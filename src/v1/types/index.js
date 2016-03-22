@@ -1,2 +1,2 @@
-export session from './session';
+export token from './token';
 export user from './user';

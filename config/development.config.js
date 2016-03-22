@@ -11,7 +11,7 @@ module.exports = {
     auth: {
         cookieName: 'access_token',
         signKey: '9bddfe0adf7bfc936adf4e19ed568dafe5f03d28',
-        tokenTTL: 1000 * 60 * 60 * 24 * 30 * 6, // 6 months
+        tokenTTL: 1000 * 60 * 60 * 24 * 30 * 1, // 1 month
         resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
         bcryptHashRounds: 10
     }

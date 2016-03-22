@@ -14,15 +14,18 @@ const listener = fortune.net.http(store, {
     ]
 });
 
+const api = (req, res) => {
+    return listener(req, res).catch(error => {
+        if ('development' === env) {
+            console.log(chalk.red(error.stack));
+        }
+    });
+};
+
 export default function () {
     const router = express.Router();
 
-    router.use((req, res) => {
-        return listener(req, res)
-            .catch(error => {
-                if ('development' === env) console.log(chalk.red(error.stack));
-            });
-    });
+    router.use(api);
 
     return router;
 }

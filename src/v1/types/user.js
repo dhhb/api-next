@@ -56,7 +56,7 @@ const recordType = {
         if (method === createMethod) {
             delete record.id;
 
-            const token = validateToken(context);
+            const token = await validateRequest(context);
             if (!token) {
                 throw new UnauthorizedError('Token is expired or invalid');
             }
@@ -82,11 +82,13 @@ const recordType = {
     }
 };
 
-function validateToken (context) {
+async function validateRequest (context) {
     // get token from context.request
     const headers = context.request.meta.headers;
     const query = context.request.uriObject.query || {};
-    const token = headers['x-access-token'] || query.access_token;
+    const tokenId = headers['x-access-token'] || query.access_token;
+
+    const token = await context.transaction.find('token', [tokenId]);
 
     return false;
 }
