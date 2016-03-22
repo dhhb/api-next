@@ -1,8 +1,6 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
-// import * as types from '../utils/types';
-// import * as token from '../utils/token';
-import * as passwords from '../utils/passwords';
+import { passwords } from '../utils';
 
 const findMethod = fortune.methods.find;
 const createMethod = fortune.methods.create;
@@ -77,6 +75,7 @@ const recordType = {
 
     output(context, record) {
         const method = context.request.method;
+
         if (method === findMethod) {
             throw new ForbiddenError('Tokens access is not allowed');
         }

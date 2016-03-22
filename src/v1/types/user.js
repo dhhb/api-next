@@ -1,12 +1,11 @@
 import fortune from 'fortune';
-import * as passwords from '../utils/passwords';
-import * as types from '../utils/types';
+import * as schemas from '../schemas';
+import { types, auth, passwords } from '../utils';
+
+console.log(schemas);
 
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
-
-const BadRequestError = fortune.errors.BadRequestError;
-const UnauthorizedError = fortune.errors.UnauthorizedError;
 
 const recordType = {
     name: 'user',
@@ -27,7 +26,7 @@ const recordType = {
             type: String
         },
         pictureData: {
-            type: Buffer
+            type: types.Base64
         },
         roles: {
             type: types.Enum('writer|admin'),
@@ -47,26 +46,26 @@ const recordType = {
     async input(context, record, update) {
         const method = context.request.method;
 
-        // if createMethod and role writer check shared key in request
-        // else throw Forbidden
-        // 1. get token in request headers, validate, check role, throw error if necessary
-        // 2. get token in request headers, request db, check session exists, validate, check role, throw error if necessary
-
-        console.log('input', context.request, record, update);
         if (method === createMethod) {
             delete record.id;
+            delete record.pictureUrl;
+            delete record.pictureData;
 
-            const token = await validateRequest(context);
-            if (!token) {
-                throw new UnauthorizedError('Token is expired or invalid');
-            }
+            auth.validateSharedKey(context);
+            schemas.validate(record, schemas.user.create);
+
             const hash = await passwords.save(record.password);
             record.password = hash;
             return record;
         }
 
         if (method === updateMethod) {
+            delete record.roles;
             delete record.password;
+            delete record.pictureUrl;
+
+            await auth.validateToken(context);
+
             return update;
         }
 
@@ -74,23 +73,11 @@ const recordType = {
     },
 
     output(context, record) {
-        console.log('output', context, record);
         delete record.password;
         delete record.pictureData;
         record.accessedAt = new Date();
         return record;
     }
 };
-
-async function validateRequest (context) {
-    // get token from context.request
-    const headers = context.request.meta.headers;
-    const query = context.request.uriObject.query || {};
-    const tokenId = headers['x-access-token'] || query.access_token;
-
-    const token = await context.transaction.find('token', [tokenId]);
-
-    return false;
-}
 
 export default recordType;
