@@ -2,8 +2,6 @@ import fortune from 'fortune';
 import * as schemas from '../schemas';
 import { types, auth, passwords } from '../utils';
 
-console.log(schemas);
-
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
 
@@ -47,10 +45,6 @@ const recordType = {
         const method = context.request.method;
 
         if (method === createMethod) {
-            delete record.id;
-            delete record.pictureUrl;
-            delete record.pictureData;
-
             auth.validateSharedKey(context);
             schemas.validate(record, schemas.user.create);
 
@@ -60,11 +54,14 @@ const recordType = {
         }
 
         if (method === updateMethod) {
-            delete record.roles;
-            delete record.password;
-            delete record.pictureUrl;
-
             await auth.validateToken(context);
+            schemas.validate(update.replace, schemas.user.update);
+
+            if (record.pictureData) {
+                // upload image to s3 and save url as pictureUrl
+                // consider creating static service to urls look list static.r-o-b.media/bucket/image/etc
+                console.log('pictureData!');
+            }
 
             return update;
         }

@@ -22,3 +22,13 @@ export const create = {
         required: true
     }
 };
+
+export const update = {
+    name: {
+        type: ['string', 'null']
+    },
+    pictureData: {
+        type: ['string', 'null'],
+        format: 'base64'
+    }
+};
