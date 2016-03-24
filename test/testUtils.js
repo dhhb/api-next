@@ -1,5 +1,6 @@
 import moment from 'moment';
 import supertest from 'supertest-as-promised';
+import superagentDefaults from 'superagent-defaults';
 import { app } from '../src';
 
 export function createTestEmail () {
@@ -29,6 +30,8 @@ export function createJsonApiRecord (type, id, attributes) {
     return jsonData;
 }
 
-export function createJsonApiRequest () {
-    return supertest(app); // use defaults here
+export function createJsonApiRequest (path) {
+    const superagent = superagentDefaults(supertest(app));
+    superagent.set('Content-Type', 'application/vnd.api+json');
+    return superagent;
 }

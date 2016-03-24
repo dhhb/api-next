@@ -7,10 +7,10 @@ import {
 } from '../testUtils';
 
 let data;
-let users;
+let request;
 
 test.before(() => {
-    users = createJsonApiRequest('/v1/users');
+    request = createJsonApiRequest('/v1/request');
 });
 
 test.beforeEach(() => {
@@ -21,9 +21,8 @@ test.beforeEach(() => {
 });
 
 test('create user without shared key', async t => {
-    const res = await users
+    const res = await request
         .post('/v1/users')
-        .set('Content-Type', 'application/vnd.api+json')
         .send(data);
 
     t.is(res.status, 400);
@@ -32,9 +31,8 @@ test('create user without shared key', async t => {
 });
 
 test('create user with invalid shared key', async t => {
-    const res = await users
+    const res = await request
         .post('/v1/users')
-        .set('Content-Type', 'application/vnd.api+json')
         .query({'shared_key': '12345'})
         .send(data);
 
