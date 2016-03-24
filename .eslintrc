@@ -3,9 +3,7 @@
 
     env: {
         "es6": true,
-        "node": true,
-        "mocha": true,
-        "mongo": true
+        "node": true
     },
 
     parser: "babel-eslint",

@@ -5,7 +5,7 @@ import express from 'express';
 import { host, port, env, mongo } from 'c0nfig';
 import v1 from './v1';
 
-const app = express();
+export const app = express();
 
 if ('test' !== env) {
     app.use(logger('dev'));
@@ -14,6 +14,8 @@ if ('test' !== env) {
 app.use(cors());
 app.use('/v1', v1());
 
-http.createServer(app).listen(port, () => {
-    console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
-});
+export function start () {
+    http.createServer(app).listen(port, () => {
+        console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
+    });
+}

@@ -1,6 +1,7 @@
 module.exports = {
     port: process.env.PORT || 9876,
     host: 'localhost',
+    apiUrl: 'http://$(host):$(port)/v1',
     mongo: {
         host: '$(host)',
         name: 'dhhb-fortune-test',
@@ -10,9 +11,17 @@ module.exports = {
     },
     auth: {
         cookieName: 'access_token_test',
-        signKey: '2c8452ca589f3a38f161568681ccfe46f6362bff',
-        tokenTTL: 1000 * 60 * 60 * 24 * 30 * 6, // 6 months
-        resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
+        signKey: '1234567890',
+        sharedKey: '1234567890',
+        tokenTTL: 1000 * 60, // 1 min
+        resetPasswordTTL: 1000 * 60, // 1 min
         bcryptHashRounds: 0
+    },
+    s3: {
+        key: process.env.S3_KEY,
+        secret: process.env.S3_SECRET,
+        bucket: 'dhhb-dev',
+        bucketUrl: 'http://$(s3.bucket).s3.amazonaws.com',
+        url: 'https://s3.amazonaws.com'
     }
 };
