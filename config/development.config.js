@@ -1,5 +1,5 @@
 module.exports = {
-    port: process.env.PORT || 9876,
+    port: process.env.NODE_PORT || process.env.PORT || 9876,
     host: 'localhost',
     mongo: {
         host: '$(host)',
@@ -15,5 +15,12 @@ module.exports = {
         tokenTTL: 1000 * 60 * 60 * 24 * 30 * 1, // 1 month
         resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
         bcryptHashRounds: 10
+    },
+    s3: {
+        key: process.env.S3_KEY,
+        secret: process.env.S3_SECRET,
+        bucket: 'dhhb-dev',
+        bucketUrl: 'http://$(s3.bucket).s3.amazonaws.com',
+        url: 'https://s3.amazonaws.com'
     }
 };

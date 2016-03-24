@@ -7,11 +7,13 @@
     "nodemon": "nodemon -w ./src ./bin/runServer -e js,json",
     "start": "node ./bin/runServer",
     "start-dev": "npm run nodemon",
+    "start-dev-secure": "nodemon -w ./src ./bin/runSecureEnvs -e js,json",
     "lint": "eslint ./src",
     "mocha": "mocha ./test",
     "test": "npm run mocha"
   },
   "dependencies": {
+    "aws-sdk": "^2.2.46",
     "bcrypt": "^0.8.5",
     "c0nfig": "^0.2.2",
     "chalk": "^1.1.1",
@@ -26,6 +28,7 @@
     "jsonwebtoken": "^5.7.0",
     "mongojs": "^2.3.0",
     "morgan": "^1.7.0",
+    "parse-data-uri": "^0.2.0",
     "validator": "^5.1.0"
   },
   "devDependencies": {

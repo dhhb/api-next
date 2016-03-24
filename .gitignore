@@ -3,4 +3,7 @@ node_modules
 *.log
 *.map
 
+bin/runSecureEnvs.js
+test.js
+
 doc/v1

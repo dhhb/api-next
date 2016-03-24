@@ -29,6 +29,6 @@ export const update = {
     },
     pictureData: {
         type: ['string', 'null'],
-        format: 'base64'
+        format: 'data-uri'
     }
 };

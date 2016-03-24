@@ -4,7 +4,10 @@ import validateSchema from 'is-my-schema-valid';
 const BadRequestError = fortune.errors.BadRequestError;
 
 const defaults = {
-    filter: true
+    filter: true,
+    formats: {
+        'data-uri': /^\s*data:([a-z]+\/[a-z0-9\-\+]+(;[a-z\-]+\=[a-z0-9\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i
+    }
 };
 
 export default function validate (record, schema, options) {
