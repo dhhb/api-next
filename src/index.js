@@ -15,5 +15,5 @@ app.use(cors());
 app.use('/v1', v1());
 
 http.createServer(app).listen(port, () => {
-    console.log(`api is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
+    console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
 });

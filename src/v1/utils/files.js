@@ -23,8 +23,9 @@ export function upload (body, mimetype, key) {
             if (err) {
                 return reject(err);
             }
+
             console.log(data);
-            const fileUrl = 'http://static.r-o-b.media/bucket';
+            const fileUrl = `${data.key}`;
             resolve(fileUrl);
         });
     });

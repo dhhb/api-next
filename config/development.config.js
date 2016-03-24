@@ -1,6 +1,7 @@
 module.exports = {
     port: process.env.NODE_PORT || process.env.PORT || 9876,
     host: 'localhost',
+    staticFilesUrl: 'http://localhost:9877/s3',
     mongo: {
         host: '$(host)',
         name: 'dhhb-fortune-dev',

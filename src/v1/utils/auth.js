@@ -16,7 +16,7 @@ export function validateSharedKey (context) {
     }
 }
 
-export async function validateToken (context) {
+export async function validateToken (context, skipUser) {
     const headers = context.request.meta.headers;
     const query = context.request.uriObject.query || {};
     const tokenId = headers.authorization || query.token;
@@ -25,10 +25,30 @@ export async function validateToken (context) {
         throw new BadRequestError('Token is missing');
     }
 
-    const token = await context.transaction.find('token', [tokenId]);
-    if (!token.count) {
+    const tokens = await context.transaction.find('token', [tokenId], {
+        fields: {
+            userId: true
+        }
+    });
+    if (!tokens.count) {
         throw new UnauthorizedError('Token is incorrect');
     }
+    const [ token ] = tokens;
 
-    return token[0];
+    if (skipUser) {
+        return token;
+    }
+
+    const users = await context.transaction.find('user', [token.userId], {
+        fields: {
+            email: true,
+            roles: true
+        }
+    });
+    if (!users.count) {
+        throw new UnauthorizedError('There is no user with this token');
+    }
+    const [ user ] = users;
+
+    return user;
 }
