@@ -30,7 +30,7 @@ export function createJsonApiRecord (type, id, attributes) {
     return jsonData;
 }
 
-export function createJsonApiRequest (path) {
+export function createJsonApiRequest () {
     const superagent = superagentDefaults(supertest(app));
     superagent.set('Content-Type', 'application/vnd.api+json');
     return superagent;
