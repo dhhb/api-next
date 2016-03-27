@@ -105,11 +105,6 @@ test('PATCH /users with valid token and matching schema', async t => {
 
     t.is(res.status, 200,
         'should respond with 200 status');
-
-    // const res2 = await request.get(`/v1/users/${userId}`);
-
-    // t.is(res2.status, 200,
-        // 'should respond with 200 status');
     t.ok(res.body.data,
         'should have data property');
     t.is(res.body.data.id, userId,
