@@ -31,7 +31,7 @@ export async function validateToken (context, skipUser) {
         }
     });
     if (!tokens.count) {
-        throw new UnauthorizedError('Token is incorrect');
+        throw new UnauthorizedError('Token is expired or incorrect');
     }
     const [ token ] = tokens;
 

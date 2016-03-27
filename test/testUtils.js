@@ -24,7 +24,7 @@ export function createJsonApiRecord (type, id, attributes) {
 
     const jsonData = {data: {type, attributes}};
     if (id) {
-        jsonData.id = id;
+        jsonData.data.id = id;
     }
 
     return jsonData;
