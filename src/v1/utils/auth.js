@@ -7,6 +7,7 @@ const UnauthorizedError = fortune.errors.UnauthorizedError;
 export function validateSharedKey (context) {
     const query = context.request.uriObject.query || {};
     const sharedKey = query.shared_key;
+
     if (!sharedKey) {
         throw new BadRequestError('Shared key is missing');
     }
@@ -30,9 +31,11 @@ export async function validateToken (context, skipUser) {
             userId: true
         }
     });
+
     if (!tokens.count) {
         throw new UnauthorizedError('Token is expired or incorrect');
     }
+
     const [ token ] = tokens;
 
     if (skipUser) {
@@ -45,9 +48,11 @@ export async function validateToken (context, skipUser) {
             roles: true
         }
     });
+
     if (!users.count) {
         throw new UnauthorizedError('There is no user with this token');
     }
+
     const [ user ] = users;
 
     return user;

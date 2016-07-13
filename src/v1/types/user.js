@@ -53,7 +53,9 @@ const recordType = {
             schemas.validate(record, schemas.user.create);
 
             const hash = await passwords.save(record.password);
+
             record.password = hash;
+
             return record;
         }
 
@@ -63,15 +65,18 @@ const recordType = {
             }
 
             const user = await auth.validateToken(context);
+
             schemas.validate(update.replace, schemas.user.update);
 
             if (update.replace.pictureData) {
                 const parsed = parseDataURI(update.replace.pictureData);
+
                 if (allowedMimetypes.indexOf(parsed.mimeType) < 0) {
                     throw new BadRequestError(`Picture data has unsupported mimetype - "${parsed.mimeType}"`);
                 }
 
                 const fileKey = `users/${user.id}/avatar`;
+
                 update.replace.pictureUrl = await files.upload(parsed.data, parsed.mimeType, fileKey);
             }
 

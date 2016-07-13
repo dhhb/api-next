@@ -51,18 +51,21 @@ const recordType = {
                     roles: true
                 }
             });
+
             if (!users.count) {
                 throw new NotFoundError(`There is no user with email - ${record.email}`);
             }
 
             const [ user ] = users;
             const same = await passwords.compare(record.password, user.password);
+
             if (!same) {
                 throw new BadRequestError('Passwords do not match');
             }
 
             record.userId = user.id;
             record.expireAt = new Date(Date.now() + config.auth.tokenTTL);
+
             return record;
         }
 
@@ -81,6 +84,7 @@ const recordType = {
         }
 
         delete record.userId;
+
         return record;
     }
 };

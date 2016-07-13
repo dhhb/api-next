@@ -24,8 +24,8 @@ export function upload (body, mimetype, key) {
                 return reject(err);
             }
 
-            console.log(data);
             const fileUrl = `${data.key}`;
+
             resolve(fileUrl);
         });
     });
