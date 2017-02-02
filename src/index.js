@@ -8,14 +8,14 @@ import v1 from './v1';
 export const app = express();
 
 if ('test' !== env) {
-    app.use(logger('dev'));
+  app.use(logger('dev'));
 }
 
 app.use(cors());
 app.use('/v1', v1());
 
-export function start () {
-    http.createServer(app).listen(port, () => {
-        console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
-    });
+export function start() {
+  http.createServer(app).listen(port, () => {
+    console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
+  });
 }

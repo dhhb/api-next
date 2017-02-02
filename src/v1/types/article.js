@@ -10,25 +10,25 @@ const ForbiddenError = fortune.errors.ForbiddenError;
 const BadRequestError = fortune.errors.BadRequestError;
 
 const recordType = {
-    name: 'article',
+  name: 'article',
 
-    collection: 'articles',
+  collection: 'articles',
 
-    definition: {
-        title: {
-            type: String
-        },
-        text: {
-            type: String
-        },
-        keywords: {
-            type: String,
-            isArray: true
-        },
-        author: {
-            link: 'user'
-        }
+  definition: {
+    title: {
+      type: String
+    },
+    text: {
+      type: String
+    },
+    keywords: {
+      type: String,
+      isArray: true
+    },
+    author: {
+      link: 'user'
     }
+  }
 };
 
 export default recordType;

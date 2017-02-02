@@ -13,91 +13,91 @@ const BadRequestError = fortune.errors.BadRequestError;
 const allowedMimetypes = ['image/png', 'image/jpeg'];
 
 const recordType = {
-    name: 'user',
+  name: 'user',
 
-    collection: 'users',
+  collection: 'users',
 
-    definition: {
-        name: {
-            type: String
-        },
-        email: {
-            type: types.Email
-        },
-        password: {
-            type: String
-        },
-        pictureUrl: {
-            type: String
-        },
-        roles: {
-            type: types.Enum('writer|admin'),
-            isArray: true
-        }
+  definition: {
+    name: {
+      type: String
     },
-
-    index: {
-        keys: {
-            email: 1
-        },
-        options: {
-            unique: true
-        }
+    email: {
+      type: types.Email
     },
-
-    async input(context, record, update) {
-        const method = context.request.method;
-
-        if (method === createMethod) {
-            auth.validateSharedKey(context);
-            schemas.validate(record, schemas.user.create);
-
-            const hash = await passwords.save(record.password);
-
-            record.password = hash;
-
-            return record;
-        }
-
-        if (method === updateMethod) {
-            if (update.push || update.pull) {
-                throw new ForbiddenError('Invalid update');
-            }
-
-            const user = await auth.validateToken(context);
-
-            schemas.validate(update.replace, schemas.user.update);
-
-            if (update.replace.pictureData) {
-                const parsed = parseDataURI(update.replace.pictureData);
-
-                if (allowedMimetypes.indexOf(parsed.mimeType) < 0) {
-                    throw new BadRequestError(`Picture data has unsupported mimetype - "${parsed.mimeType}"`);
-                }
-
-                const fileKey = `users/${user.id}/avatar`;
-
-                update.replace.pictureUrl = await files.upload(parsed.data, parsed.mimeType, fileKey);
-            }
-
-            return update;
-        }
-
-        return null;
+    password: {
+      type: String
     },
-
-    output(context, record) {
-        delete record.password;
-
-        if (record.pictureUrl) {
-            record.pictureUrl = `${config.staticFilesUrl}/${record.pictureUrl}`;
-        } else {
-            record.pictureUrl = `${config.staticFilesUrl}/defaults/avatar`;
-        }
-
-        record.accessedAt = new Date();
-        return record;
+    pictureUrl: {
+      type: String
+    },
+    roles: {
+      type: types.Enum('writer|admin'),
+      isArray: true
     }
+  },
+
+  index: {
+    keys: {
+      email: 1
+    },
+    options: {
+      unique: true
+    }
+  },
+
+  async input(context, record, update) {
+    const method = context.request.method;
+
+    if (method === createMethod) {
+      auth.validateSharedKey(context);
+      schemas.validate(record, schemas.user.create);
+
+      const hash = await passwords.save(record.password);
+
+      record.password = hash;
+
+      return record;
+    }
+
+    if (method === updateMethod) {
+      if (update.push || update.pull) {
+        throw new ForbiddenError('Invalid update');
+      }
+
+      const user = await auth.validateToken(context);
+
+      schemas.validate(update.replace, schemas.user.update);
+
+      if (update.replace.pictureData) {
+        const parsed = parseDataURI(update.replace.pictureData);
+
+        if (allowedMimetypes.indexOf(parsed.mimeType) < 0) {
+          throw new BadRequestError(`Picture data has unsupported mimetype - "${parsed.mimeType}"`);
+        }
+
+        const fileKey = `users/${user.id}/avatar`;
+
+        update.replace.pictureUrl = await files.upload(parsed.data, parsed.mimeType, fileKey);
+      }
+
+      return update;
+    }
+
+    return null;
+  },
+
+  output(context, record) {
+    delete record.password;
+
+    if (record.pictureUrl) {
+      record.pictureUrl = `${config.staticFilesUrl}/${record.pictureUrl}`;
+    } else {
+      record.pictureUrl = `${config.staticFilesUrl}/defaults/avatar`;
+    }
+
+    record.accessedAt = new Date();
+    return record;
+  }
 };
 
 export default recordType;

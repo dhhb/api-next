@@ -1,34 +1,34 @@
 export const create = {
-    email: {
-        type: 'string',
-        format: 'email',
-        required: true
+  email: {
+    type: 'string',
+    format: 'email',
+    required: true
+  },
+  password: {
+    type: 'string',
+    required: true,
+    minLength: 6
+  },
+  name: {
+    type: 'string',
+    required: true,
+    minLength: 1
+  },
+  roles: {
+    type: 'array',
+    items: {
+      enum: ['writer', 'admin']
     },
-    password: {
-        type: 'string',
-        required: true,
-        minLength: 6
-    },
-    name: {
-        type: 'string',
-        required: true,
-        minLength: 1
-    },
-    roles: {
-        type: 'array',
-        items: {
-            enum: ['writer', 'admin']
-        },
-        required: true
-    }
+    required: true
+  }
 };
 
 export const update = {
-    name: {
-        type: ['string', 'null']
-    },
-    pictureData: {
-        type: ['string', 'null'],
-        format: 'data-uri'
-    }
+  name: {
+    type: ['string', 'null']
+  },
+  pictureData: {
+    type: ['string', 'null'],
+    format: 'data-uri'
+  }
 };
