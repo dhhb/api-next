@@ -1,5 +1,4 @@
 import express from 'express';
-import fortune from 'fortune';
 import fortuneHTTP from 'fortune-http';
 import chalk from 'chalk';
 import jsonApiSerializer from 'fortune-json-api';

@@ -1,5 +1,6 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
+import * as schemas from '../schemas';
 import { passwords } from '../utils';
 
 const findMethod = fortune.methods.find;
@@ -37,7 +38,7 @@ const recordType = {
     const method = context.request.method;
 
     if (method === createMethod) {
-      delete record.id;
+      schemas.validate(record, schemas.token.create);
 
       const users = await context.transaction.find('user', null, {
         match: {
@@ -57,7 +58,7 @@ const recordType = {
       }
 
       const [ user ] = users;
-      const same = await passwords.compare(record.password, user.password);
+      const same = await passwords.compare(record.password.toString(), user.password);
 
       if (!same) {
         throw new BadRequestError('Passwords do not match');

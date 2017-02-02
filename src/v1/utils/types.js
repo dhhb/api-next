@@ -1,8 +1,8 @@
 import isEmail from 'validator/lib/isEmail';
 import isBase64 from 'validator/lib/isBase64';
 
-function inheritToFrom (type, inherited) {
-  type.prototype = Object.create(inherited.prototype);
+function inheritToFrom (Type, Instance) {
+  Type.prototype = new Instance();
 }
 
 export const Email = (value) => {
@@ -17,7 +17,7 @@ export const Enum = (values = []) => {
 
   function _Enum(value) {
     return values.indexOf(value.trim()) > -1;
-  };
+  }
   inheritToFrom(_Enum, String);
 
   return _Enum;

@@ -47,7 +47,7 @@ test('POST /users with invalid shared key', async t => {
     'should respond with correct error message');
 });
 
-test.only('POST /users with valid shared key but not matching schema', async t => {
+test('POST /users with valid shared key but not matching schema', async t => {
   const notValid = createJsonApiRecord('user', {email: 'foo', password: 'qwert'});
   const res = await request
     .post('/v1/users')

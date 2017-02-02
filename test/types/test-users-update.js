@@ -28,9 +28,9 @@ test.before('POST /users (register user)', async t => {
     .send(sendData);
 
   t.is(res.status, 201);
-  t.ok(res.body.data);
-  t.ok(res.body.data.id);
-  t.ok(res.body.data.attributes);
+  t.truthy(res.body.data);
+  t.truthy(res.body.data.id);
+  t.truthy(res.body.data.attributes);
 
   userId = res.body.data.id;
 });
@@ -46,9 +46,9 @@ test.before('POST /tokens (login user)', async t => {
     .send(sendData);
 
   t.is(res.status, 201);
-  t.ok(res.body.data);
-  t.ok(res.body.data.id);
-  t.ok(res.body.data.attributes);
+  t.truthy(res.body.data);
+  t.truthy(res.body.data.id);
+  t.truthy(res.body.data.attributes);
 
   tokenId = res.body.data.id;
 });
@@ -105,7 +105,7 @@ test('PATCH /users with valid token and matching schema', async t => {
 
   t.is(res.status, 200,
     'should respond with 200 status');
-  t.ok(res.body.data,
+  t.truthy(res.body.data,
     'should have data property');
   t.is(res.body.data.id, userId,
     'should have user id property');

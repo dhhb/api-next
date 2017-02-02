@@ -30,12 +30,12 @@ const recordType = {
     }
   },
 
-  async input() {
-
+  async input(context, record) {
+    return record;
   },
 
-  output() {
-
+  output(context, record) {
+    return record;
   }
 };
 
