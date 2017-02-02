@@ -28,6 +28,14 @@ const recordType = {
     author: {
       link: 'user'
     }
+  },
+
+  async input() {
+
+  },
+
+  output() {
+
   }
 };
 

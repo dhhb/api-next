@@ -47,7 +47,7 @@ test('POST /users with invalid shared key', async t => {
     'should respond with correct error message');
 });
 
-test('POST /users with valid shared key but not matching schema', async t => {
+test.only('POST /users with valid shared key but not matching schema', async t => {
   const notValid = createJsonApiRecord('user', {email: 'foo', password: 'qwert'});
   const res = await request
     .post('/v1/users')
@@ -72,9 +72,9 @@ test('POST /users with valid shared key and matching schema', async t => {
 
   t.is(res.status, 201,
     'should respond with 201 status');
-  t.ok(res.body.data,
+  t.truthy(res.body.data,
     'should have data property');
-  t.ok(res.body.data.id,
+  t.truthy(res.body.data.id,
     'should have user id property');
   t.is(res.body.data.attributes.name, userData.name,
     'should have name value');

@@ -4,15 +4,16 @@ import { randomBytes } from 'crypto';
 import { mongo } from 'c0nfig';
 import * as types from './types';
 
+const hooks = {};
 const typeMap = {};
-const transforms = {};
 const recordTypes = {};
 const recordIndexes = [];
+
 Object.keys(types).forEach(key => {
   const type = types[key];
 
   recordTypes[type.name] = type.definition;
-  transforms[type.name] = [type.input, type.output];
+  hooks[type.name] = [type.input, type.output];
 
   if (type.collection) {
     typeMap[type.name] = type.collection;
@@ -35,13 +36,15 @@ const adapter = [
     typeMap
   }
 ];
-const store = fortune(recordTypes, { adapter, transforms });
+
+const store = fortune(recordTypes, { adapter, hooks });
 
 // ensure mongodb collection indexes
 store.on(fortune.events.connect, () => {
   recordIndexes.forEach(record => {
     const db = store.adapter.db;
     const { keys, options } = record.index;
+
     db.collection(record.collection).createIndex(keys, options);
   });
 });

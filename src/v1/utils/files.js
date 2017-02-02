@@ -6,7 +6,7 @@ AWS.config.update({
   secretAccessKey: config.s3.secret
 });
 
-export function upload(body, mimetype, key) {
+export function upload (body, mimetype, key) {
   const s3bucket = new AWS.S3({
     params: {
       Bucket: config.s3.bucket,

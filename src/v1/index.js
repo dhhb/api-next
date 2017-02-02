@@ -1,13 +1,14 @@
 import express from 'express';
 import fortune from 'fortune';
+import fortuneHTTP from 'fortune-http';
 import chalk from 'chalk';
 import jsonApiSerializer from 'fortune-json-api';
 import { env } from 'c0nfig';
 import store from './store';
 
-const formDataSerializer = fortune.net.http.FormDataSerializer;
+const formDataSerializer = fortuneHTTP.FormDataSerializer;
 
-const listener = fortune.net.http(store, {
+const listener = fortuneHTTP(store, {
   serializers: [
     [jsonApiSerializer],
     [formDataSerializer]
