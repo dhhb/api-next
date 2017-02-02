@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "bin": {
-    "dhhb-api": "runServer.js"
+    "dhhb-api": "./bin/runServer.js"
   },
   "scripts": {
     "nodemon": "nodemon -w ./src ./bin/runServer -e js,json",

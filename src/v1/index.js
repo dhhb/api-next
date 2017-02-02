@@ -8,24 +8,24 @@ import store from './store';
 const formDataSerializer = fortune.net.http.FormDataSerializer;
 
 const listener = fortune.net.http(store, {
-    serializers: [
-        [ jsonApiSerializer ],
-        [ formDataSerializer ]
-    ]
+  serializers: [
+    [jsonApiSerializer],
+    [formDataSerializer]
+  ]
 });
 
 const api = (req, res) => {
-    return listener(req, res).catch(error => {
-        if ('development' === env) {
-            console.log(chalk.red(error.stack));
-        }
-    });
+  return listener(req, res).catch(error => {
+    if ('development' === env) {
+      console.log(chalk.red(error.stack));
+    }
+  });
 };
 
 export default function () {
-    const router = express.Router();
+  const router = express.Router();
 
-    router.use(api);
+  router.use(api);
 
-    return router;
+  return router;
 }

@@ -9,42 +9,41 @@ const transforms = {};
 const recordTypes = {};
 const recordIndexes = [];
 Object.keys(types).forEach(key => {
-    const type = types[key];
+  const type = types[key];
 
-    recordTypes[type.name] = type.definition;
-    transforms[type.name] = [type.input, type.output];
+  recordTypes[type.name] = type.definition;
+  transforms[type.name] = [type.input, type.output];
 
-    if (type.collection) {
-        typeMap[type.name] = type.collection;
-    }
+  if (type.collection) {
+    typeMap[type.name] = type.collection;
+  }
 
-    if (type.index) {
-        recordIndexes.push({
-            collection: type.collection,
-            index: type.index
-        });
-    }
+  if (type.index) {
+    recordIndexes.push({
+      collection: type.collection,
+      index: type.index
+    });
+  }
 });
 
 const adapter = [
-    mongodbAdapter,
-    {
-        url: mongo.connection,
-        generateId() {
-            return randomBytes(16).toString('hex');
-        },
-        typeMap
-    }
+  mongodbAdapter, {
+    url: mongo.connection,
+    generateId() {
+      return randomBytes(16).toString('hex');
+    },
+    typeMap
+  }
 ];
 const store = fortune(recordTypes, { adapter, transforms });
 
 // ensure mongodb collection indexes
 store.on(fortune.events.connect, () => {
-    recordIndexes.forEach(record => {
-        const db = store.adapter.db;
-        const { keys, options } = record.index;
-        db.collection(record.collection).createIndex(keys, options);
-    });
+  recordIndexes.forEach(record => {
+    const db = store.adapter.db;
+    const { keys, options } = record.index;
+    db.collection(record.collection).createIndex(keys, options);
+  });
 });
 
 store.connect();
