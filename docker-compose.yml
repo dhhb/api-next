@@ -1,0 +1,23 @@
+version: "2"
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/usr/rob-api
+    environment:
+      - MONGODB_HOST=mongo
+    ports:
+      - "3000:3000"
+  links:
+    - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes_from:
+      - mongodata
+  mongodata:
+    image: busybox
+    volumes:
+      - /data/db
+    command: echo 'data storage container for mongodb'

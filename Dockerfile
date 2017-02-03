@@ -1,4 +1,5 @@
 FROM node:6
+
 MAINTAINER Dmitri Voronianski <dmitri.voronianski@gmail.com>
 
 RUN mkdir -p /usr/rob-api
