@@ -1,7 +1,7 @@
 import fortune from 'fortune';
 import mongodbAdapter from 'fortune-mongodb';
 import { randomBytes } from 'crypto';
-import { mongo } from 'c0nfig';
+import { mongodb } from 'c0nfig';
 import * as types from './types';
 
 const hooks = {};
@@ -29,7 +29,7 @@ Object.keys(types).forEach(key => {
 
 const adapter = [
   mongodbAdapter, {
-    url: mongo.connection,
+    url: mongodb.connection,
     generateId() {
       return randomBytes(16).toString('hex');
     },

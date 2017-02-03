@@ -2,7 +2,7 @@ import http from 'http';
 import cors from 'cors';
 import logger from 'morgan';
 import express from 'express';
-import { host, port, env, mongo } from 'c0nfig';
+import { host, port, env, mongodb } from 'c0nfig';
 import v1 from './v1';
 
 export const app = express();
@@ -16,6 +16,6 @@ app.use('/v1', v1());
 
 export function start() {
   http.createServer(app).listen(port, () => {
-    console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongo.connection}`);
+    console.log(`api server is listening on http://${host}:${port} env=${env} db=${mongodb.connection}`);
   });
 }

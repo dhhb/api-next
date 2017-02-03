@@ -3,11 +3,11 @@ module.exports = {
   host: 'localhost',
   apiUrl: 'http://$(host):$(port)/v1',
   staticFilesUrl: 'http://localhost:9877/s3',
-  mongo: {
+  mongodb: {
     host: '$(host)',
     name: 'dhhb-fortune-test',
     port: 27017,
-    connection: 'mongodb://$(mongo.host):$(mongo.port)/$(mongo.name)',
+    connection: 'mongodb://$(mongodb.host):$(mongodb.port)/$(mongodb.name)',
     options: {}
   },
   auth: {

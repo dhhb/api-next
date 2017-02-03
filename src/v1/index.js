@@ -15,9 +15,9 @@ const listener = fortuneHTTP(store, {
 });
 
 const api = (req, res) => {
-  return listener(req, res).catch(error => {
+  return listener(req, res).catch((err) => {
     if ('development' === env) {
-      console.log(chalk.red(error.stack));
+      console.log(chalk.red(err.stack));
     }
   });
 };
