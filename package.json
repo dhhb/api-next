@@ -34,7 +34,7 @@
     "fortune": "^5.1.0",
     "fortune-http": "^1.0.4",
     "fortune-json-api": "^2.1.0",
-    "fortune-mongodb": "^1.1.4",
+    "fortune-mongodb": "^1.1.5",
     "is-my-schema-valid": "^1.0.3",
     "jsonwebtoken": "^7.2.1",
     "lodash": "^4.17.4",

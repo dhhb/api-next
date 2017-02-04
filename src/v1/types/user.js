@@ -1,7 +1,6 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
 import parseDataURI from 'parse-data-uri';
-import isEmpty from 'lodash/isEmpty';
 import * as schemas from '../schemas';
 import { types, auth, passwords, files } from '../utils';
 
@@ -69,10 +68,6 @@ const recordType = {
       const user = await auth.validateToken(context);
 
       schemas.validate(update.replace, schemas.user.update);
-
-      if (isEmpty(update.replace)) {
-        throw new BadRequestError('Invalid update');
-      }
 
       if (update.replace.pictureData) {
         const parsed = parseDataURI(update.replace.pictureData);
