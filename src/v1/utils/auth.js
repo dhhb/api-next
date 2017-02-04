@@ -50,7 +50,7 @@ export async function validateToken(context, skipUser) {
   });
 
   if (!users.count) {
-    throw new UnauthorizedError('There is no user with this token');
+    throw new UnauthorizedError('There are no user with this token');
   }
 
   const [user] = users;
