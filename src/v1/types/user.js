@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import * as schemas from '../schemas';
 import { types, auth, passwords, files } from '../utils';
 
+const findMethod = fortune.methods.find;
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
 
@@ -92,9 +93,13 @@ const recordType = {
   },
 
   async output(context, record) {
+    const method = context.request.method;
+
     delete record.password;
 
-    await auth.validateToken(context);
+    if (method === findMethod) {
+      await auth.validateToken(context);
+    }
 
     if (record.pictureUrl) {
       record.pictureUrl = `${config.staticFilesUrl}/${record.pictureUrl}`;
