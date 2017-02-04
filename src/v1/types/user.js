@@ -91,8 +91,10 @@ const recordType = {
     return null;
   },
 
-  output(context, record) {
+  async output(context, record) {
     delete record.password;
+
+    await auth.validateToken(context);
 
     if (record.pictureUrl) {
       record.pictureUrl = `${config.staticFilesUrl}/${record.pictureUrl}`;

@@ -1,5 +1,6 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
+import store from '../store';
 
 const BadRequestError = fortune.errors.BadRequestError;
 const UnauthorizedError = fortune.errors.UnauthorizedError;
@@ -26,7 +27,7 @@ export async function validateToken(context, skipUser) {
     throw new BadRequestError('Token is missing');
   }
 
-  const tokens = await context.transaction.find('token', [tokenId], {
+  const tokens = await store.adapter.find('token', [tokenId], {
     fields: {
       userId: true
     }
@@ -42,7 +43,7 @@ export async function validateToken(context, skipUser) {
     return token;
   }
 
-  const users = await context.transaction.find('user', [token.userId], {
+  const users = await store.adapter.find('user', [token.userId], {
     fields: {
       email: true,
       roles: true
