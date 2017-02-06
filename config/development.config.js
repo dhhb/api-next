@@ -1,8 +1,8 @@
 module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 9876,
   host: 'localhost',
-  apiUrl: 'http://$(host):$(port)/v1',
-  staticFilesUrl: 'http://localhost:9877/s3',
+  apiUrl: process.env.API_URL || 'http://$(host):$(port)/v1',
+  staticFilesUrl: process.env.STATIC_FILES_URL || 'http://localhost:9877/s3',
   mongodb: {
     host: process.env.MONGODB_HOST || '$(host)',
     name: process.env.MONGODB_NAME || 'dhhb-fortune-dev',
@@ -12,8 +12,8 @@ module.exports = {
   },
   auth: {
     cookieName: 'access_token',
-    signKey: '9bddfe0adf7bfc936adf4e19ed568dafe5f03d28',
-    sharedKey: '18906320497eaad0088501a1b6f5485e33a4172b',
+    signKey: process.env.AUTH_SIGN_KEY || '9bddfe0adf7bfc936adf4e19ed568dafe5f03d28',
+    sharedKey:  process.env.AUTH_SHARED_KEY || '18906320497eaad0088501a1b6f5485e33a4172b',
     tokenTTL: 1000 * 60 * 60 * 24 * 30 * 1, // 1 month
     resetPasswordTTL: 1000 * 60 * 60 * 24, // 1 day
     bcryptHashRounds: 10

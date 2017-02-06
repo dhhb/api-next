@@ -1,8 +1,8 @@
 module.exports = {
   port: process.env.NODE_PORT || process.env.PORT || 9876,
   host: 'localhost',
-  apiUrl: 'http://$(host):$(port)/v1',
-  staticFilesUrl: 'http://localhost:9877/s3',
+  apiUrl: process.env.API_URL || 'http://$(host):$(port)/v1',
+  staticFilesUrl: process.env.STATIC_FILES_URL || 'http://localhost:9877/s3',
   mongodb: {
     user: process.env.MONGODB_USER || 'robuser01',
     pass: process.env.MONGODB_PASS || '5320b8dfa196b7acae2407f70625b81d',
