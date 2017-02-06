@@ -16,6 +16,15 @@ export function createTestUserData(roles = ['writer']) {
   };
 }
 
+export function createTestArticleData() {
+  return {
+    title: 'Test article title',
+    intro: 'Test article intro',
+    content: 'Test article content',
+    keywords: ['test']
+  };
+}
+
 export function createJsonApiRecord(type, id, attributes) {
   if (id && !attributes) {
     attributes = id;
