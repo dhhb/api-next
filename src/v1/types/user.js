@@ -80,11 +80,15 @@ const recordType = {
   async output(context, record) {
     const method = context.request.method;
 
-    delete record.password;
-
     if (method === findMethod) {
-      await auth.validateToken(context.request);
+      try {
+        await auth.validateToken(context.request);
+      } catch (e) {
+        delete record.roles;
+      }
     }
+
+    delete record.password;
 
     if (record.pictureUrl) {
       record.pictureUrl = `${config.staticFilesUrl}/${record.pictureUrl}`;

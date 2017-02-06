@@ -28,9 +28,7 @@ export async function validateToken(request, skipUser) {
   }
 
   const tokens = await store.adapter.find('token', [tokenId], {
-    fields: {
-      userId: true
-    }
+    fields: { userId: true }
   });
 
   if (!tokens.count) {
@@ -44,10 +42,7 @@ export async function validateToken(request, skipUser) {
   }
 
   const users = await store.adapter.find('user', [token.userId], {
-    fields: {
-      email: true,
-      roles: true
-    }
+    fields: { email: true, roles: true }
   });
 
   if (!users.count) {
