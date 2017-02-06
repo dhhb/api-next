@@ -40,7 +40,7 @@ const recordType = {
     const method = context.request.method;
 
     if (method === createMethod) {
-      auth.validateSharedKey(context);
+      auth.validateSharedKey(context.request);
       schemas.validate(record, schemas.user.create);
 
       const hash = await passwords.save(record.password);
@@ -55,7 +55,7 @@ const recordType = {
         throw new ForbiddenError('Invalid update');
       }
 
-      const user = await auth.validateToken(context);
+      const user = await auth.validateToken(context.request);
 
       schemas.validate(update.replace, schemas.user.update);
 
@@ -83,7 +83,7 @@ const recordType = {
     delete record.password;
 
     if (method === findMethod) {
-      await auth.validateToken(context);
+      await auth.validateToken(context.request);
     }
 
     if (record.pictureUrl) {

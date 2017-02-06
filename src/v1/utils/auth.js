@@ -5,8 +5,8 @@ import store from '../store';
 const BadRequestError = fortune.errors.BadRequestError;
 const UnauthorizedError = fortune.errors.UnauthorizedError;
 
-export function validateSharedKey(context) {
-  const query = context.request.uriObject.query || {};
+export function validateSharedKey(request) {
+  const query = request.uriObject.query || {};
   const sharedKey = query.shared_key;
 
   if (!sharedKey) {
@@ -18,9 +18,9 @@ export function validateSharedKey(context) {
   }
 }
 
-export async function validateToken(context, skipUser) {
-  const headers = context.request.meta.headers;
-  const query = context.request.uriObject.query || {};
+export async function validateToken(request, skipUser) {
+  const headers = request.meta.headers;
+  const query = request.uriObject.query || {};
   const tokenId = headers.authorization || query.token;
 
   if (!tokenId) {

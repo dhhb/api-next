@@ -1,13 +1,15 @@
 import fortune from 'fortune';
 import mongodbAdapter from 'fortune-mongodb';
+import isFunction from 'lodash/isFunction';
 import { randomBytes } from 'crypto';
 import { mongodb } from 'c0nfig';
 import * as types from './types';
 
-const hooks = {};
-const typeMap = {};
-const recordTypes = {};
-const recordIndexes = [];
+const typeMap = {}; // map record type names to collection names
+const hooks = {}; // adapter i/o hooks
+const recordTypes = {}; // adapter record types
+const recordIndexes = []; // mongodb collection indexes per record type
+const beforeRequestHooks = {}; // before request hooks
 
 Object.keys(types).forEach(key => {
   const type = types[key];
@@ -25,8 +27,13 @@ Object.keys(types).forEach(key => {
       index: type.index
     });
   }
+
+  if (isFunction(type.beforeRequest)) {
+    beforeRequestHooks[type.name] = type.beforeRequest;
+  }
 });
 
+// create database adapter
 const adapter = [
   mongodbAdapter, {
     url: mongodb.connection,
@@ -37,7 +44,21 @@ const adapter = [
   }
 ];
 
+// create fortune store instance
 const store = fortune(recordTypes, { adapter, hooks });
+
+// patch request with before hook
+const internalRequest = store.request;
+
+store.request = async function (options) {
+  const beforeRequestHook = beforeRequestHooks[options.type];
+
+  if (beforeRequestHook) {
+    await beforeRequestHook(options);
+  }
+
+  return internalRequest.call(this, options);
+};
 
 // ensure mongodb collection indexes
 store.on(fortune.events.connect, () => {
