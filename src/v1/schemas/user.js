@@ -25,10 +25,10 @@ export const create = {
 
 export const update = {
   name: {
-    type: ['string', 'null']
+    type: 'string'
   },
   pictureData: {
-    type: ['string', 'null'],
+    type: 'string',
     format: 'data-uri'
   }
 };

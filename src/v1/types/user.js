@@ -19,22 +19,12 @@ const recordType = {
   collection: 'users',
 
   definition: {
-    name: {
-      type: String
-    },
-    email: {
-      type: types.Email
-    },
-    password: {
-      type: String
-    },
-    pictureUrl: {
-      type: String
-    },
-    roles: {
-      type: types.Enum('writer|admin'),
-      isArray: true
-    }
+    name: String,
+    email: types.Email,
+    password: String,
+    pictureUrl: String,
+    roles: Array(types.Enum('writer|admin')),
+    articles: [Array('article'), 'author']
   },
 
   index: {

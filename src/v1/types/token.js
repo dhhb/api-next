@@ -17,12 +17,8 @@ const recordType = {
   collection: 'tokens',
 
   definition: {
-    userId: {
-      type: String
-    },
-    expireAt: {
-      type: Date
-    }
+    userId: String,
+    expireAt: Date
   },
 
   index: {
@@ -83,8 +79,6 @@ const recordType = {
     if (method === findMethod) {
       throw new ForbiddenError('Tokens access is not allowed');
     }
-
-    delete record.userId;
 
     return record;
   }
