@@ -3,14 +3,17 @@ import _ from 'lodash';
 import config from 'c0nfig';
 import {
   createTestUserData,
+  createTestArticleData,
   createJsonApiRecord,
   createJsonApiRequest
 } from '../testUtils';
 
 let request;
 let userData;
+let articleData;
 let userId;
 let tokenId;
+let articleId;
 
 test.before('create request instance', () => {
   request = createJsonApiRequest();
@@ -50,10 +53,31 @@ test.before('POST /tokens (login user)', async t => {
   tokenId = res.body.data.id;
 });
 
-test('PATCH /users without token', async t => {
+test.before('create test user data', () => {
+  articleData = createTestArticleData();
+});
+
+test.before('POST /articles (create article)', async t => {
   const res = await request
-    .patch(`/v1/users/${userId}`)
-    .send(createJsonApiRecord('user', userId, {name: 'New name'}));
+    .post('/v1/articles')
+    .set('Authorization', tokenId)
+    .send(createJsonApiRecord('article', articleData));
+
+  t.is(res.status, 201);
+  t.truthy(res.body.data);
+  t.truthy(res.body.data.id);
+  t.is(res.body.data.attributes.title, articleData.title);
+  t.is(res.body.data.attributes.intro, articleData.intro);
+  t.is(res.body.data.attributes.content, articleData.content);
+  t.deepEqual(res.body.data.attributes.keywords, articleData.keywords);
+
+  articleId = res.body.data.id;
+});
+
+test('PATCH /articles without token', async t => {
+  const res = await request
+    .patch(`/v1/articles/${articleId}`)
+    .send(createJsonApiRecord('article', articleId, articleData));
 
   t.is(res.status, 400,
     'should respond with 400 status');
@@ -63,11 +87,11 @@ test('PATCH /users without token', async t => {
     'should respond with correct error message');
 });
 
-test('PATCH /users with invalid token', async t => {
+test('PATCH /articles with invalid token', async t => {
   const res = await request
-    .patch(`/v1/users/${userId}`)
+    .patch(`/v1/articles/${articleId}`)
     .set('Authorization', 'Invalid token id')
-    .send(createJsonApiRecord('user', userId, {name: 'New name'}));
+    .send(createJsonApiRecord('article', articleId, articleData));
 
   t.is(res.status, 401,
     'should respond with 401 status');
@@ -77,37 +101,31 @@ test('PATCH /users with invalid token', async t => {
     'should respond with correct error message');
 });
 
-test('PATCH /users with valid token but not matching schema', async t => {
+test('PATCH /articles with valid token', async t => {
+  const newData = {
+    title: 'New test title!',
+    publish: true
+  };
   const res = await request
-    .patch(`/v1/users/${userId}`)
+    .patch(`/v1/articles/${articleId}`)
     .set('Authorization', tokenId)
-    .send(createJsonApiRecord('user', userId, {pictureData: 'foo'}));
-
-  t.is(res.status, 400,
-    'should respond with 400 status');
-  t.true(_.isArray(res.body.errors),
-    'should have errors as array');
-  t.is(res.body.errors[0].detail, 'Error validating against schema',
-    'should respond with correct error message');
-  t.is(res.body.errors[0].schema.length, 1,
-    'should have all schema errors');
-});
-
-test('PATCH /users with valid token and matching schema', async t => {
-  const newData = {name: 'Super new name', email: 'trysend@newemail.com'};
-  const res = await request
-    .patch(`/v1/users/${userId}`)
-    .set('Authorization', tokenId)
-    .send(createJsonApiRecord('user', userId, newData));
+    .send(createJsonApiRecord('article', articleId, newData));
 
   t.is(res.status, 200,
     'should respond with 200 status');
   t.truthy(res.body.data,
     'should have data property');
-  t.is(res.body.data.id, userId,
-    'should have user id property');
-  t.is(res.body.data.attributes.name, newData.name,
-    'should have new name value');
-  t.is(res.body.data.attributes.email, userData.email,
-   'should have old email value');
+  t.truthy(res.body.data.id,
+    'should have article id property');
+  t.is(res.body.data.attributes.title, newData.title,
+    'should have title value');
+  t.is(res.body.data.attributes.intro, articleData.intro,
+    'should have intro value');
+  t.is(res.body.data.attributes.content, articleData.content,
+    'should have content value');
+  t.false(res.body.data.attributes.draft,
+    'should have draft as "false" value');
+  t.deepEqual(res.body.data.attributes.keywords, articleData.keywords,
+    'should have keywords value');
 });
+
