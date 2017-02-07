@@ -23,6 +23,7 @@ const recordType = {
     content: String,
     coverUrl: String,
     createdAt: Date,
+    updatedAt: Date,
     publishedAt: Date,
     keywords: Array(String),
     draft: Boolean,
@@ -54,13 +55,19 @@ const recordType = {
 
       record.author = user.id;
       record.draft = true;
-      record.createdAt = new Date();
+
+      const now = new Date();
+
+      record.createdAt = now;
+      record.updatedAt = now;
 
       return record;
     }
 
     if (method === updateMethod) {
       schemas.validate(update.replace, schemas.article.update);
+
+      update.replace.updatedAt = new Date();
 
       if (update.replace.publish) {
         update.replace.draft = false;
