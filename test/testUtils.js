@@ -1,10 +1,10 @@
-import moment from 'moment';
+import uuidV4 from 'uuid/v4';
 import supertest from 'supertest-as-promised';
 import superagentDefaults from 'superagent-defaults';
 import { app } from '../src';
 
 export function createTestEmail() {
-  return moment().valueOf() + '@tests.com';
+  return uuidV4() + '@tests.com';
 }
 
 export function createTestUserData(roles = ['writer']) {
