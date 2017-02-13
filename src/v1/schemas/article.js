@@ -1,35 +1,12 @@
-export const create = {
+const base = {
   title: {
-    type: 'string',
-    default: ''
+    type: ['string', 'null']
   },
   intro: {
-    type: 'string',
-    default: ''
+    type: ['string', 'null']
   },
   content: {
-    type: 'string',
-    default: ''
-  },
-  keywords: {
-    type: 'array',
-    items: {
-      type: 'string'
-    },
-    uniqueItems: true,
-    default: []
-  }
-};
-
-export const update = {
-  title: {
-    type: 'string'
-  },
-  intro: {
-    type: 'string'
-  },
-  content: {
-    type: 'string'
+    type: ['string', 'null']
   },
   keywords: {
     type: 'array',
@@ -37,7 +14,15 @@ export const update = {
       type: 'string'
     },
     uniqueItems: true
-  },
+  }
+};
+
+export const create = {
+  ...base
+};
+
+export const update = {
+  ...base,
   publish: {
     type: 'boolean'
   },
