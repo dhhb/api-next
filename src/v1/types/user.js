@@ -7,6 +7,7 @@ import { types, auth, passwords, files } from '../utils';
 const findMethod = fortune.methods.find;
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
+const deleteMethod = fortune.methods.delete;
 
 const ForbiddenError = fortune.errors.ForbiddenError;
 const BadRequestError = fortune.errors.BadRequestError;
@@ -72,6 +73,14 @@ const recordType = {
       }
 
       return update;
+    }
+
+    if (method === deleteMethod) {
+      const user = await auth.validateToken(context.request);
+
+      if (user.id !== record.id) {
+        throw new ForbiddenError('Token is not valid for this user');
+      }
     }
 
     return null;
