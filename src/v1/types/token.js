@@ -1,11 +1,12 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
 import * as schemas from '../schemas';
-import { passwords } from '../utils';
+import { auth, passwords } from '../utils';
 
 const findMethod = fortune.methods.find;
 const createMethod = fortune.methods.create;
 const updateMethod = fortune.methods.update;
+const deleteMethod = fortune.methods.delete;
 
 const NotFoundError = fortune.errors.NotFoundError;
 const ForbiddenError = fortune.errors.ForbiddenError;
@@ -68,6 +69,14 @@ const recordType = {
 
     if (method === updateMethod) {
       throw new ForbiddenError('Tokens cannot be updated');
+    }
+
+    if (method === deleteMethod) {
+      const user = await auth.validateToken(context.request);
+
+      if (record.userId !== user.id) {
+        throw new ForbiddenError('Token is not valid for this user');
+      }
     }
 
     return null;
