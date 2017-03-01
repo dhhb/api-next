@@ -53,7 +53,7 @@ test.before('POST /tokens (login user)', async t => {
   tokenId = res.body.data.id;
 });
 
-test.before('create test user data', () => {
+test.before('create test article data', () => {
   articleData = createTestArticleData();
 });
 
@@ -128,4 +128,3 @@ test('PATCH /articles with valid token', async t => {
   t.deepEqual(res.body.data.attributes.keywords, articleData.keywords,
     'should have keywords value');
 });
-

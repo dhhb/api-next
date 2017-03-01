@@ -89,6 +89,8 @@ const recordType = {
       throw new ForbiddenError('Tokens access is not allowed');
     }
 
+    record.accessedAt = new Date();
+
     return record;
   }
 };

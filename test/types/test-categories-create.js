@@ -3,14 +3,14 @@ import _ from 'lodash';
 import config from 'c0nfig';
 import {
   createTestUserData,
-  createTestArticleData,
+  createTestCategoryData,
   createJsonApiRecord,
   createJsonApiRequest
 } from '../testUtils';
 
 let request;
 let userData;
-let articleData;
+let categoryData;
 let userId;
 let tokenId;
 
@@ -52,14 +52,14 @@ test.before('POST /tokens (login user)', async t => {
   tokenId = res.body.data.id;
 });
 
-test.before('create test article data', () => {
-  articleData = createTestArticleData();
+test.before('create test category data', () => {
+  categoryData = createTestCategoryData();
 });
 
-test('POST /articles without token', async t => {
+test('POST /categories without token', async t => {
   const res = await request
-    .post('/v1/articles')
-    .send(createJsonApiRecord('article', articleData));
+    .post('/v1/categories')
+    .send(createJsonApiRecord('category', categoryData));
 
   t.is(res.status, 400,
     'should respond with 400 status');
@@ -69,11 +69,11 @@ test('POST /articles without token', async t => {
     'should respond with correct error message');
 });
 
-test('POST /articles with invalid token', async t => {
+test('POST /categories with invalid token', async t => {
   const res = await request
-    .post('/v1/articles')
+    .post('/v1/categories')
     .set('Authorization', 'Invalid token id')
-    .send(createJsonApiRecord('article', articleData));
+    .send(createJsonApiRecord('category', categoryData));
 
   t.is(res.status, 401,
     'should respond with 401 status');
@@ -83,24 +83,18 @@ test('POST /articles with invalid token', async t => {
     'should respond with correct error message');
 });
 
-test('POST /articles with valid token', async t => {
+test('POST /categories with valid token', async t => {
   const res = await request
-    .post('/v1/articles')
+    .post('/v1/categories')
     .set('Authorization', tokenId)
-    .send(createJsonApiRecord('article', articleData));
+    .send(createJsonApiRecord('category', categoryData));
 
   t.is(res.status, 201,
     'should respond with 201 status');
   t.truthy(res.body.data,
     'should have data property');
   t.truthy(res.body.data.id,
-    'should have article id property');
-  t.is(res.body.data.attributes.title, articleData.title,
+    'should have category id property');
+  t.is(res.body.data.attributes.title, categoryData.title,
     'should have title value');
-  t.is(res.body.data.attributes.intro, articleData.intro,
-    'should have intro value');
-  t.is(res.body.data.attributes.content, articleData.content,
-    'should have content value');
-  t.deepEqual(res.body.data.attributes.keywords, articleData.keywords,
-    'should have keywords value');
 });

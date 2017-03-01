@@ -27,15 +27,17 @@ const recordType = {
     publishedAt: Date,
     keywords: Array(String),
     draft: Boolean,
-    author: ['user', 'articles']
+    author: ['user', 'articles'],
+    category: ['category', 'articles']
   },
 
   async beforeRequest(request) {
     const method = request.method;
     const headers = request.meta.headers;
+    const query = request.uriObject.query || {};
 
     if (method === findMethod) {
-      if (headers.authorization) {
+      if (headers.authorization || query.token) {
         await auth.validateToken(request);
       } else {
         // Prevent this option from being overridden.

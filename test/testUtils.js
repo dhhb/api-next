@@ -25,6 +25,12 @@ export function createTestArticleData() {
   };
 }
 
+export function createTestCategoryData() {
+  return {
+    title: 'Test category title'
+  };
+}
+
 export function createJsonApiRecord(type, id, attributes) {
   if (id && !attributes) {
     attributes = id;

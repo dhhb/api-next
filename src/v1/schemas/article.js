@@ -8,6 +8,10 @@ const base = {
   content: {
     type: ['string', 'null']
   },
+  category: {
+    type: 'string',
+    format: 'mongo-object-id'
+  },
   keywords: {
     type: 'array',
     items: {
