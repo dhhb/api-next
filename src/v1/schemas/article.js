@@ -9,8 +9,7 @@ const base = {
     type: ['string', 'null']
   },
   category: {
-    type: 'string',
-    format: 'mongo-object-id'
+    type: ['string', 'null']
   },
   keywords: {
     type: 'array',
@@ -31,7 +30,7 @@ export const update = {
     type: 'boolean'
   },
   coverData: {
-    type: ['string', 'null'],
+    type: 'string',
     format: 'data-uri'
   }
 };
