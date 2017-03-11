@@ -1,6 +1,7 @@
 import fortune from 'fortune';
 import config from 'c0nfig';
 import parseDataURI from 'parse-data-uri';
+import speakingurl from 'speakingurl';
 import * as schemas from '../schemas';
 import { auth, files } from '../utils';
 
@@ -19,6 +20,7 @@ const recordType = {
 
   definition: {
     title: String,
+    slug: String,
     intro: String,
     content: String,
     coverUrl: String,
@@ -58,6 +60,10 @@ const recordType = {
       record.author = user.id;
       record.draft = true;
 
+      if (record.title && !record.slug) {
+        record.slug = speakingurl(record.title);
+      }
+
       const now = new Date();
 
       record.createdAt = now;
@@ -70,6 +76,10 @@ const recordType = {
       schemas.validate(update.replace, schemas.article.update);
 
       update.replace.updatedAt = new Date();
+
+      if (update.replace.title && !update.replace.slug) {
+        update.replace.slug = speakingurl(update.replace.title);
+      }
 
       if (update.replace.publish) {
         update.replace.draft = false;

@@ -38,7 +38,7 @@ const adapter = [
   mongodbAdapter, {
     url: mongodb.connection,
     generateId() {
-      return randomBytes(16).toString('hex');
+      return randomBytes(12).toString('hex');
     },
     typeMap
   }
