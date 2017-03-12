@@ -42,6 +42,10 @@ const recordType = {
       if (headers.authorization || query.token) {
         await auth.validateToken(request);
       } else {
+        if (!request.options.match) {
+          request.options.match = {};
+        }
+
         request.options.match.draft = false;
       }
     }
