@@ -42,10 +42,7 @@ const recordType = {
       if (headers.authorization || query.token) {
         await auth.validateToken(request);
       } else {
-        // Prevent this option from being overridden.
-        request.options.match = Object.create({}, {
-          draft: { value: false, enumerable: true }
-        });
+        request.options.match.draft = false;
       }
     }
   },
