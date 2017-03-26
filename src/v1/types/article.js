@@ -11,7 +11,7 @@ const updateMethod = fortune.methods.update;
 
 const BadRequestError = fortune.errors.BadRequestError;
 
-const allowedMimetypes = ['image/png', 'image/jpeg'];
+const allowedMimetypes = ['image/png', 'image/jpeg', 'image/gif'];
 
 const recordType = {
   name: 'article',

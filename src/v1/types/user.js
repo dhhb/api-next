@@ -12,7 +12,7 @@ const deleteMethod = fortune.methods.delete;
 const ForbiddenError = fortune.errors.ForbiddenError;
 const BadRequestError = fortune.errors.BadRequestError;
 
-const allowedMimetypes = ['image/png', 'image/jpeg'];
+const allowedMimetypes = ['image/png', 'image/jpeg', 'image/gif'];
 
 const recordType = {
   name: 'user',
