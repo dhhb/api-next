@@ -87,6 +87,11 @@ const recordType = {
         update.replace.publishedAt = new Date();
       }
 
+      // maybe handle unpublish in a better way?
+      if (update.replace.publish === false) {
+        update.replace.draft = true;
+      }
+
       if (update.replace.coverData) {
         const parsed = parseDataURI(update.replace.coverData);
 

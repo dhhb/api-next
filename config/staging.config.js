@@ -4,8 +4,6 @@ module.exports = {
   apiUrl: process.env.API_URL || 'http://$(host):$(port)/v1',
   staticFilesUrl: process.env.STATIC_FILES_URL || 'http://localhost:9877/s3',
   mongodb: {
-    user: process.env.MONGODB_USER || 'robuser01',
-    pass: process.env.MONGODB_PASS || '5320b8dfa196b7acae2407f70625b81d',
     host: process.env.MONGODB_HOST || '$(host)',
     name: process.env.MONGODB_NAME || 'dhhb-fortune-stage',
     port: process.env.MONGODB_PORT || 27017,
